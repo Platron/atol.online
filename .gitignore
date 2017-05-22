@@ -1,0 +1,14 @@
+/vendor/
+composer.lock
+composer.phar
+
+# Eclipse project files
+.buildpath
+.project
+/.settings/
+
+# Netbeans project files
+/nbproject/
+
+# Merchant settings for integration tests
+/tests/integration/MerchantSettings.php
