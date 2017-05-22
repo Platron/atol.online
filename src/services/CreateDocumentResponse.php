@@ -9,17 +9,13 @@ class CreateDocumentResponse extends BaseServiceResponse {
     
     /** @var string */
     public $status;
-    
-    /**
-     * @inheritdoc
-     */
-    public function isValid(array $response) {
+        
+    public function __construct(array $response) {
         if(!empty($response['error']['code'])){
             $this->errorCode = $response['error']['code'];
             $this->errorDescription = $response['error']['text'];
-            return false;
         }
         
-        return true;
+        parent::__construct($response);
     }
 }

@@ -28,20 +28,13 @@ class GetStatusResponse extends BaseServiceResponse {
     /**
      * @inheritdoc
      */
-    public function isValid(array $response) {
+    public function __construct(array $response) {
+        
         if(!empty($response['error']['code'])){
             $this->errorCode = $response['error']['code'];
             $this->errorDescription = $response['error']['text'];            
-            return false;
         }
         
-        return true;
-    }
-    
-    /**
-     * @inheritdoc
-     */
-    public function __construct(array $response) {
         if($response['status'] == self::STATUS_DONE ){
             $this->status = self::STATUS_DONE;
             parent::__construct($response['payload']);

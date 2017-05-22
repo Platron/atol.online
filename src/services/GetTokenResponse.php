@@ -9,15 +9,12 @@ class GetTokenResponse extends BaseServiceResponse {
     /** @var string */
     public $token;
     
-    /**
-     * @inheritdoc
-     */
-    public function isValid(array $response) {
+    public function __construct(array $response) {
         if($response['code'] >= 2){
             $this->errorCode = $response['code'];
             $this->errorDescription = $response['text'];
-            return false;
         }
-        return true;
+        
+        parent::__construct($response);
     }
 }

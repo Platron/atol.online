@@ -4,7 +4,7 @@ namespace Platron\Atol\tests\integration;
 
 use Platron\Atol\tests\integration\MerchantSettings;
 
-class IntegrationTestBase {
+class IntegrationTestBase extends \PHPUnit_Framework_TestCase {
     /** @var string */
     protected $login;
     /** @var string */

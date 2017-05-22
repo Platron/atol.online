@@ -23,7 +23,14 @@ abstract class BaseServiceResponse {
      * @param array $response
      * @return boolean
      */
-    abstract public function isValid(array $response);
+    public function isValid(){
+        if(!empty($this->errorCode)){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
     
     /**
      * Получить код ошибки из ответа
