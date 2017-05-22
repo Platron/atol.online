@@ -2,6 +2,8 @@
 
 namespace Platron\Atol\data_objects;
 
+use Platron\Atol\SdkException;
+
 class ReceiptPosition extends BaseDataObject{
     
     const 
@@ -31,11 +33,11 @@ class ReceiptPosition extends BaseDataObject{
      * @param type $quantity Количество товара
      * @param type $vat Налоговая ставка из констант
      * @param type $sum Сумма количества товаров. Передается если количество * цену товара не равно sum
-     * @throws \Platron\Atol\SdkException
+     * @throws SdkException
      */
     public function __construct($name, $price, $quantity, $vat, $sum = null) {
         if(!in_array($vat, $this->getVates())){
-            throw new \Platron\Atol\SdkException('Wrong vat');
+            throw new SdkException('Wrong vat');
         }
         
         $this->name = $name;
@@ -49,6 +51,14 @@ class ReceiptPosition extends BaseDataObject{
             $this->sum = $sum;
         }
         $this->tax_sum = $this->getVatAmount($this->sum, $vat);
+    }
+    
+    /**
+     * Получить сумму позиции
+     * @return flost
+     */
+    public function getPositionSum(){
+        return $this->sum;
     }
     
     /**
@@ -83,7 +93,7 @@ class ReceiptPosition extends BaseDataObject{
             case self::TAX_VAT118:
                 return round($amount * 18 / 118, 2);
             default :
-                throw new \Platron\Atol\SdkException('Unknown vat');
+                throw new SdkException('Unknown vat');
         }
     }
 }

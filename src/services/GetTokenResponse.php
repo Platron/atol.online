@@ -8,14 +8,6 @@ class GetTokenResponse extends BaseServiceResponse {
     public $code;
     /** @var string */
     public $token;
- 
-    public function __construct(array $response) {
-        foreach (get_object_vars($this) as $name => $value) {
-			if (!empty($response[$name])) {
-				$this->$name = $response[$name];
-			}
-		}
-    }
     
     /**
      * @inheritdoc

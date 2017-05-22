@@ -10,12 +10,20 @@ abstract class BaseServiceResponse {
     /** @var string */
     protected $errorDescription;
     
+    public function __construct(array $response) {
+        foreach (get_object_vars($this) as $name => $value) {
+			if (!empty($response[$name])) {
+				$this->$name = $response[$name];
+			}
+		}
+    }
+    
     /**
      * Проверка на ошибки в ответе
      * @param array $response
      * @return boolean
      */
-    public function isValid(array $response);
+    abstract public function isValid(array $response);
     
     /**
      * Получить код ошибки из ответа
