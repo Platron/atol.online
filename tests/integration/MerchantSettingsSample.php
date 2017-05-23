@@ -7,6 +7,6 @@ class MerchantSettings {
         LOGIN = 'testlogin',
         PASSWORD = 'testpassword',
         GROUP_ID = 'test_group',
-        INN = 1234567890123,
+        INN = 123456789012,
         PAYMENT_ADDRESS = 'test_payment_address';
 }
