@@ -6,7 +6,7 @@ use Platron\Atol\data_objects\ReceiptPosition;
 use Platron\Atol\SdkException;
 
 /**
- * Все парараметры обязательны для заполнения, кроме external_id. Он нужен только для корректировки чека
+ * Все парараметры обязательны для заполнения, кроме external_id. Он нужен только для корректировки чека. В наборе email|phone требуется хотя бы одно значение
  */
 class CreateDocumentRequest extends BaseServiceRequest{
     
@@ -42,19 +42,20 @@ class CreateDocumentRequest extends BaseServiceRequest{
         OPERATION_TYPE_BUY_CORRECTION = 'buy_correction'; // Коррекция расхода
     
     const 
-        PAYMENT_TYPE_CASH = 0,
-        PAYMENT_TYPE_ELECTRON = 1,
-        PAYMNET_TYPE_PRE_PAID = 2,
-        PAYMNET_TYPE_CREDIT = 3,
-        PAYMNET_TYPE_OTHER = 4;
+        PAYMENT_TYPE_CASH = 0, // наличными
+        PAYMENT_TYPE_ELECTRON = 1, // электронными
+        PAYMNET_TYPE_PRE_PAID = 2, // предварительная оплата (аванс)
+        PAYMNET_TYPE_CREDIT = 3, // последующая оплата (кредит)
+        PAYMNET_TYPE_OTHER = 4,// иная форма оплаты (встречное предоставление
+        PAYMNET_TYPE_ADDITIONAL = 5; // расширенный типы оплаты. для каждого фискального типа оплаты можно указать расширенный тип оплаты
     
     const 
-        SNO_OSN = 'osn',
-        SNO_USN_INCOME = 'usn_income',
-        SNO_USN_INCOME_OUTCOME = 'usn_income_outcome',
-        SNO_ENDV = 'envd',
-        SNO_ESN = 'esn',
-        SNO_PATENT = 'patent';
+        SNO_OSN = 'osn', // общая СН
+        SNO_USN_INCOME = 'usn_income', // упрощенная СН (доходы)
+        SNO_USN_INCOME_OUTCOME = 'usn_income_outcome', // упрощенная СН (доходы минус расходы)
+        SNO_ENDV = 'envd', // единый налог на вмененный доход
+        SNO_ESN = 'esn', // единый сельскохозяйственный налог
+        SNO_PATENT = 'patent'; // патентная СН
     
     /**
      * @inheritdoc

@@ -2,7 +2,9 @@
 
 namespace Platron\Atol\clients;
 
+use Platron\Atol\clients\iClient;
 use Platron\Atol\SdkException;
+use Platron\Atol\services\BaseServiceRequest;
 
 class PostClient implements iClient {
     
@@ -14,7 +16,7 @@ class PostClient implements iClient {
     /**
      * @inheritdoc
      */
-    public function sendRequest(\Platron\Atol\services\BaseServiceRequest $service) {
+    public function sendRequest(BaseServiceRequest $service) {
         $requestParameters = $service->getParameters();
         
         $curl = curl_init($service->getRequestUrl());

@@ -55,7 +55,7 @@ class ReceiptPosition extends BaseDataObject{
     
     /**
      * Получить сумму позиции
-     * @return flost
+     * @return float
      */
     public function getPositionSum(){
         return $this->sum;
