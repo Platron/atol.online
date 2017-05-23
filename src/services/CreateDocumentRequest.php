@@ -5,6 +5,9 @@ namespace Platron\Atol\services;
 use Platron\Atol\data_objects\ReceiptPosition;
 use Platron\Atol\SdkException;
 
+/**
+ * Все парараметры обязательны для заполнения, кроме external_id. Он нужен только для корректировки чека
+ */
 class CreateDocumentRequest extends BaseServiceRequest{
     
     /** @var string идентификатор группы ККТ */
@@ -63,37 +66,48 @@ class CreateDocumentRequest extends BaseServiceRequest{
     /**
      * Добавить адрес магазина для оплаты (сайт)
      * @param string $address
+     * @return CreateDocumentRequest
      */
     public function addMerchantAddress($address){
         $this->paymentAddress = $address;
+        return $this;
     }
     
     /**
      * Установить email покупателя
+     * @param string $email
+     * @return CreateDocumentRequest
      */
     public function addCustomerEmail($email){
         $this->customerEmail = $email;
+        return $this;
     }
     
     /**
      * Установить телефон покупателя
      * @param int $phone
+     * @return CreateDocumentRequest
      */
     public function addCustomerPhone($phone){
         $this->customerPhone = $phone;
+        return $this;
     }
     
     /**
      * Установить inn
      * @param type $inn
+     * @return CreateDocumentRequest
      */
     public function addInn($inn){
         $this->inn = $inn;
+        return $this;
     }
     
     /**
      * Установить тип платежа. Из констант
      * @param int $paymentType
+     * throws SdkException
+     * @return CreateDocumentRequest
      */
     public function addPaymentType($paymentType){
         if(!in_array($paymentType, $this->getPaymentTypes())){
@@ -101,49 +115,76 @@ class CreateDocumentRequest extends BaseServiceRequest{
         }
         
         $this->paymentType = $paymentType;
+        return $this;
     }
     
     /**
      * Добавить позицию в чек
      * @param ReceiptPosition $position
+     * @return CreateDocumentRequest
      */
     public function addReceiptPosition(ReceiptPosition $position){
         $this->receiptPositions[] = $position;
+        return $this;
     }
     
     /**
      * Установить номер чека, если это коррекция
      * @param string $externalId
+     * @return CreateDocumentRequest
      */
     public function addExternalId($externalId){
         $this->externalId = $externalId;
+        return $this;
     }
     
     /**
      * Добавить SNO. Если у организации один тип - оно не обязательное. Из констант
      * @param string $sno
+     * @throws SdkException
+     * @return CreateDocumentRequest
      */
-    public function assSno($sno){
+    public function addSno($sno){
         if(!in_array($sno, $this->getSnoTypes())){
             throw new SdkException('Wrong sno type');
         }
         
         $this->sno = $sno;
+        return $this;
     }
 
     /**
-     * @param string $operationType Тип операции. Из констант
      * @param string $token Токен из запроса получения токена
-     * @param string $groupCode Идентификатор группы ККТ
-     * @throws SdkException
+     * @return CreateDocumentRequest
      */
-    public function __construct($operationType, $token, $groupCode) {
+    public function __construct($token) {
+        $this->token = $token;
+        return $this;
+    }
+    
+    /**
+     * Добавить тип операции
+     * @param string $operationType Тип операции. Из констант
+     * @throws SdkException
+     * @return CreateDocumentRequest
+     */
+    public function addOperationType($operationType){
         if(!in_array($operationType, $this->getOperationTypes())){
             throw new SdkException('Wrong operation type');
         }
         
+        $this->operationType = $operationType;
+        return $this;
+    }
+    
+    /**
+     * Добавить код группы
+     * @param string $groupCode Идентификатор группы ККТ
+     * @return CreateDocumentRequest
+     */
+    public function addGroupCode($groupCode){
         $this->groupCode = $groupCode;
-        $this->token = $token;
+        return $this;
     }
     
     public function getParameters() {
