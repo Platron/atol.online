@@ -2,6 +2,8 @@
 
 namespace Platron\Atol\services;
 
+use stdClass;
+
 abstract class BaseServiceResponse {
     
     /** @var int */
@@ -10,10 +12,10 @@ abstract class BaseServiceResponse {
     /** @var string */
     protected $errorDescription;
     
-    public function __construct(array $response) {
+    public function __construct(stdClass $response) {
         foreach (get_object_vars($this) as $name => $value) {
-			if (!empty($response[$name])) {
-				$this->$name = $response[$name];
+			if (!empty($response->name)) {
+				$this->$name = $response->name;
 			}
 		}
     }

@@ -30,17 +30,17 @@ class GetStatusResponse extends BaseServiceResponse {
      */
     public function __construct(array $response) {
         
-        if(!empty($response['error']['code'])){
-            $this->errorCode = $response['error']['code'];
-            $this->errorDescription = $response['error']['text'];            
+        if(!empty($response->error->code)){
+            $this->errorCode = $response->error->code;
+            $this->errorDescription = $response->error->text;            
         }
         
         if($response['status'] == self::STATUS_DONE ){
             $this->status = self::STATUS_DONE;
-            parent::__construct($response['payload']);
+            parent::__construct($response->payload);
         }
         else {
-            $this->status = $response['status'];
+            $this->status = $response->status;
         }
     }
     
