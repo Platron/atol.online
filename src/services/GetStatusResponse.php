@@ -35,7 +35,7 @@ class GetStatusResponse extends BaseServiceResponse {
             $this->errorDescription = $response->error->text;            
         }
         
-        if($response['status'] == self::STATUS_DONE ){
+        if($response->status == self::STATUS_DONE ){
             $this->status = self::STATUS_DONE;
             parent::__construct($response->payload);
         }

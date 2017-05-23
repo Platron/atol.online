@@ -18,6 +18,11 @@ class GetStatusRequest extends BaseServiceRequest{
         return self::REQUEST_URL.$this->groupCode.'/'.$this->uuId.'?tokenid='.$this->token;
     }
     
+    /**
+     * @param string $groupCode
+     * @param string $uuId
+     * @param string $token
+     */
     public function __construct($groupCode, $uuId, $token) {
         $this->groupCode = $groupCode;
         $this->uuId = $uuId;
