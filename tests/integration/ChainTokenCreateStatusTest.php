@@ -17,12 +17,12 @@ class ChainTokenCreateStatusTest extends IntegrationTestBase {
         
         $tokenService = new GetTokenRequest($this->login, $this->password);
         $tokenResponse = new GetTokenResponse($client->sendRequest($tokenService));
-        
+
         $this->assertTrue($tokenResponse->isValid());
         
         $receiptPosition = new ReceiptPosition('Test product', 10.00, 2, ReceiptPosition::TAX_VAT10);
-        
-        $createDocumentService = (new CreateDocumentRequest(CreateDocumentRequest::OPERATION_TYPE_BUY, $tokenResponse->token, $this->groupCode))
+ 
+        $createDocumentService = (new CreateDocumentRequest($tokenResponse->token))
             ->addCustomerEmail('test@test.ru')
             ->addCustomerPhone('79268750000')
             ->addGroupCode($this->groupCode)
@@ -38,7 +38,7 @@ class ChainTokenCreateStatusTest extends IntegrationTestBase {
         
         $getStatusServise = new GetStatusRequest($this->groupCode, $createDocumentResponse->uuid, $tokenResponse->token);
         $getStatusResponse = new GetStatusResponse($client->sendRequest($getStatusServise));
-        
+
         $this->assertTrue($getStatusResponse->isValid());
     }
 }

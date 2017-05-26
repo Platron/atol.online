@@ -15,7 +15,7 @@ class GetStatusRequest extends BaseServiceRequest{
      * @inheritdoc
      */
     public function getRequestUrl() {
-        return self::REQUEST_URL.$this->groupCode.'/'.$this->uuId.'?tokenid='.$this->token;
+        return self::REQUEST_URL.$this->groupCode.'/report/'.$this->uuId.'?tokenid='.$this->token;
     }
     
     /**

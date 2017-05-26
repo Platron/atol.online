@@ -2,6 +2,8 @@
 
 namespace Platron\Atol\services;
 
+use stdClass;
+
 class CreateDocumentResponse extends BaseServiceResponse {
     
     /** @var string Уникальный идентификатор */
@@ -10,7 +12,7 @@ class CreateDocumentResponse extends BaseServiceResponse {
     /** @var string */
     public $status;
         
-    public function __construct(array $response) {
+    public function __construct(stdClass $response) {
         if(!empty($response->error->code)){
             $this->errorCode = $response->error->code;
             $this->errorDescription = $response->error->text;

@@ -6,7 +6,7 @@ class GetTokenRequest extends BaseServiceRequest {
     /** @var string */
     protected $login;
     /** @var string */
-    protected $password;
+    protected $pass;
     
     /**
      * @inheritdoc
@@ -22,7 +22,7 @@ class GetTokenRequest extends BaseServiceRequest {
      */
     public function __construct($login, $password){
         $this->login = $login;
-        $this->password = $password;
+        $this->pass = $password;
     }
 
 }

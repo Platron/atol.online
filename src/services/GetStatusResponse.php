@@ -2,6 +2,8 @@
 
 namespace Platron\Atol\services;
 
+use stdClass;
+
 class GetStatusResponse extends BaseServiceResponse {
     
     const STATUS_DONE = 'done';
@@ -28,8 +30,7 @@ class GetStatusResponse extends BaseServiceResponse {
     /**
      * @inheritdoc
      */
-    public function __construct(array $response) {
-        
+    public function __construct(stdClass $response) {
         if(!empty($response->error->code)){
             $this->errorCode = $response->error->code;
             $this->errorDescription = $response->error->text;            
