@@ -15,11 +15,20 @@ class PostClient implements iClient {
     protected $errorDescription;
     /** @var int */
     protected $errorCode;
+    /** @var LoggerInterface */
+    protected $logger;
+    
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function __construct(LoggerInterface $logger = null) {
+        $this->logger = $logger;
+    }
     
     /**
      * @inheritdoc
      */
-    public function sendRequest(BaseServiceRequest $service, LoggerInterface $logger = null) {
+    public function sendRequest(BaseServiceRequest $service) {
         $requestParameters = $service->getParameters();
         $requestUrl = $service->getRequestUrl();
         
@@ -30,8 +39,8 @@ class PostClient implements iClient {
 		$response = curl_exec($curl);
         
         if($logger){
-            $logger->log(self::LOG_LEVEL, 'Requested url '.$requestUrl.' params '. print_r($requestParameters, true));
-            $logger->log(self::LOG_LEVEL, 'Response '.$response);
+            $this->logger->log(self::LOG_LEVEL, 'Requested url '.$requestUrl.' params '. print_r($requestParameters, true));
+            $this->logger->log(self::LOG_LEVEL, 'Response '.$response);
         }
 		
 		if(curl_errno($curl)){
