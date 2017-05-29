@@ -2,7 +2,8 @@
     "name": "platron/atol-online",
     "description": "Atol.online SDK",
     "require": {
-        "php": ">=5.3"
+        "php": ">=5.3",
+        "psr/log": "1.0.2"
     },
     "require-dev": {
 		"php": ">=5.6",
