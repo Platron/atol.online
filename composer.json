@@ -1,5 +1,5 @@
 {
-    "name": "platron/atol-online",
+    "name": "payprocessing/atol-online",
     "description": "Atol.online SDK",
     "require": {
         "php": ">=5.3",
