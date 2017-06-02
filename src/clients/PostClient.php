@@ -40,7 +40,7 @@ class PostClient implements iClient {
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		$response = curl_exec($curl);
         
-        if($logger){
+        if($this->logger){
             $this->logger->log(self::LOG_LEVEL, 'Requested url '.$requestUrl.' params '. json_encode($requestParameters));
             $this->logger->log(self::LOG_LEVEL, 'Response '.$response);
         }
