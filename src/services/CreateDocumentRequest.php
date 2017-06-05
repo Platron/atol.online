@@ -197,8 +197,8 @@ class CreateDocumentRequest extends BaseServiceRequest{
                 'payment_address' => $this->paymentAddress,
             ],
             'attributes' => [
-                'email' => $this->customerEmail,
-                'phone' => $this->customerPhone,
+                'email' => $this->customerEmail ? : '',
+                'phone' => $this->customerPhone ? : '',
             ],
             'external_id' => $this->externalId,
         ];
