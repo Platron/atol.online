@@ -188,31 +188,34 @@ class CreateDocumentRequest extends BaseServiceRequest{
         return $this;
     }
     
-    public function getParameters() {
+    public function getParameters() {        
+        $totalAmount = 0;
+        $items = [];
+        foreach($this->receiptPositions as $receiptPosition){
+            $totalAmount += $receiptPosition->getPositionSum();
+            $items[] = $receiptPosition->getParameters();
+        }
+
         $params = [
             'timestamp' => date('d.m.Y H:i:s'),
+            'external_id' => $this->externalId,
             'service' => [
                 'inn' => $this->inn,
                 'callback_url' => '',
                 'payment_address' => $this->paymentAddress,
             ],
-            'attributes' => [
-                'email' => $this->customerEmail ? : '',
-                'phone' => $this->customerPhone ? : '',
+            'receipt' => [
+                'items' => $items,
+                'total' => $totalAmount,
+                'payments' => [
+                    'sum' => $totalAmount,
+                    'type' => $this->paymentType,
+                ],
+                'attributes' => [
+                    'email' => $this->customerEmail ? : '',
+                    'phone' => $this->customerPhone ? : '',
+                ],
             ],
-            'external_id' => $this->externalId,
-        ];
-        
-        $totalAmount = 0;
-        foreach($this->receiptPositions as $receiptPosition){
-            $totalAmount += $receiptPosition->getPositionSum();
-            $params['items'][] = $receiptPosition->getParameters();
-        }
-        
-        $params['total'] = $totalAmount;
-        $params['payments'] = [
-            'sum' => $totalAmount,
-            'type' => $this->paymentType,
         ];
         
         return $params;
