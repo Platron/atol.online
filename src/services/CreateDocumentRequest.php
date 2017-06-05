@@ -214,6 +214,7 @@ class CreateDocumentRequest extends BaseServiceRequest{
                     ],
                 ],
                 'attributes' => [
+                    'sno' => $this->sno,
                     'email' => $this->customerEmail ? : '',
                     'phone' => $this->customerPhone ? : '',
                 ],
