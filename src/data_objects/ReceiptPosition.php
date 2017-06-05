@@ -26,31 +26,33 @@ class ReceiptPosition extends BaseDataObject{
     protected $price;
     /** @var int */
     protected $quantity;
+    /** @var string */
+    protected $barcode = '';
     
     /**
-     * @param type $name Описание товара
-     * @param type $price Цена единицы товара
-     * @param type $quantity Количество товара
-     * @param type $vat Налоговая ставка из констант
-     * @param type $sum Сумма количества товаров. Передается если количество * цену товара не равно sum
+     * @param string $name Описание товара
+     * @param float $price Цена единицы товара
+     * @param int $quantity Количество товара
+     * @param string $vat Налоговая ставка из констант
+     * @param float $sum Сумма количества товаров. Передается если количество * цену товара не равно sum
      * @throws SdkException
      */
     public function __construct($name, $price, $quantity, $vat, $sum = null) {
         if(!in_array($vat, $this->getVates())){
             throw new SdkException('Wrong vat');
         }
-        
+
         $this->name = $name;
-        $this->price = $price;
-        $this->quantity = $quantity;
+        $this->price = (double)$price;
+        $this->quantity = (double)$quantity;
         $this->tax = $vat;
         if(!$sum){
-            $this->sum = $this->quantity * $this->price;
+            $this->sum = (double)$this->quantity * $this->price;
         }
         else {
-            $this->sum = $sum;
+            $this->sum = (double)$sum;
         }
-        $this->tax_sum = $this->getVatAmount($this->sum, $vat);
+        $this->tax_sum = (double)$this->getVatAmount($this->sum, $vat);
     }
     
     /**
@@ -59,6 +61,14 @@ class ReceiptPosition extends BaseDataObject{
      */
     public function getPositionSum(){
         return $this->sum;
+    }
+    
+    /**
+     * Установить штрихкод
+     * @param string $barcode
+     */
+    public function setBarcode($barcode){
+        $this->barcode = $barcode;
     }
     
     /**

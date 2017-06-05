@@ -195,7 +195,7 @@ class CreateDocumentRequest extends BaseServiceRequest{
             $totalAmount += $receiptPosition->getPositionSum();
             $items[] = $receiptPosition->getParameters();
         }
-
+        
         $params = [
             'timestamp' => date('d.m.Y H:i:s'),
             'external_id' => $this->externalId,
@@ -208,8 +208,10 @@ class CreateDocumentRequest extends BaseServiceRequest{
                 'items' => $items,
                 'total' => $totalAmount,
                 'payments' => [
-                    'sum' => $totalAmount,
-                    'type' => $this->paymentType,
+                    [
+                        'sum' => $totalAmount,
+                        'type' => $this->paymentType,
+                    ],
                 ],
                 'attributes' => [
                     'email' => $this->customerEmail ? : '',
