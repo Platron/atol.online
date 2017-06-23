@@ -33,6 +33,9 @@ class PostClient implements iClient {
         $requestUrl = $service->getRequestUrl();
         
         $curl = curl_init($service->getRequestUrl());
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);
+        
         if(!empty($requestParameters)){
             curl_setopt($curl, CURLOPT_POST, 1);
             curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($requestParameters));
