@@ -33,7 +33,7 @@ class PostClient implements iClient {
         $requestUrl = $service->getRequestUrl();
         
         $curl = curl_init($service->getRequestUrl());
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);
         
         if(!empty($requestParameters)){
