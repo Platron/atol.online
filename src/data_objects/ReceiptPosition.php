@@ -95,11 +95,9 @@ class ReceiptPosition extends BaseDataObject{
             case self::TAX_VAT0:
                 return round(0, 2);
             case self::TAX_VAT10:
-                return round($amount * 0.1, 2);
-            case self::TAX_VAT18:
-                return round($amount * 0.18, 2);
             case self::TAX_VAT110:
                 return round($amount * 10 / 110, 2);
+            case self::TAX_VAT18:
             case self::TAX_VAT118:
                 return round($amount * 18 / 118, 2);
             default :
