@@ -23,8 +23,8 @@ vendor/bin/phpunit tests/integration
 <pre><code>
     $client = new Platron\Atol\clients\PostClient();
         
-    $tokenService = new Platron\Atol\services\GetStatusRequest('login', 'password');
-    $tokenResponse = new Platron\Atol\services\GetStatusResponse($client->sendRequest($tokenService));
+    $tokenService = new Platron\Atol\services\GetTokenRequest('login', 'password');
+    $tokenResponse = new Platron\Atol\services\GetTokenResponse($client->sendRequest($tokenService));
 </pre></code>
 
 ### 2. Создание чека
@@ -50,6 +50,6 @@ vendor/bin/phpunit tests/integration
 
 <pre><code>
     $client = new Platron\Atol\clients\PostClient();
-    $getStatusServise = new Platron\Atol\services\GetTokenRequest('groupCode', 'uuid', 'token');
-    $getStatusResponse = new Platron\Atol\services\GetTokenResponse($client->sendRequest($getStatusServise));
+    $getStatusServise = new Platron\Atol\services\GetStatusRequest('groupCode', 'uuid', 'token');
+    $getStatusResponse = new Platron\Atol\services\GetStatusResponse($client->sendRequest($getStatusServise));
 </pre></code>
