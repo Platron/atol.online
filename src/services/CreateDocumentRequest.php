@@ -215,11 +215,21 @@ class CreateDocumentRequest extends BaseServiceRequest{
                 ],
                 'attributes' => [
                     'sno' => $this->sno,
-                    'email' => $this->customerEmail ? : '',
-                    'phone' => $this->customerPhone ? : '',
                 ],
             ],
         ];
+        
+        /**
+         * Отправлять надо только один контакт. Email предпочтительнее
+         */
+        if(!empty($this->customerEmail)){
+            $params['receipt']['attributes']['email'] = $this->customerEmail;
+            $params['receipt']['attributes']['phone'] = '';
+        }
+        elseif(!empty($this->customerPhone)){
+            $params['receipt']['attributes']['phone'] = $this->customerPhone;
+            $params['receipt']['attributes']['email'] = '';
+        }
         
         return $params;
     }
