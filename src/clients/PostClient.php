@@ -53,7 +53,7 @@ class PostClient implements iClient {
 		}
         
         if(empty(json_decode($response))){
-            throw new SdkException('Atol error. Not json responce');
+            throw new SdkException('Atol error. Not json response');
         }
 		
 		return json_decode($response);
