@@ -17,12 +17,16 @@ class PostClient implements iClient {
     protected $errorCode;
     /** @var LoggerInterface */
     protected $logger;
+    /** @var int */
+    protected $connectionTimeout;
     
     /**
      * @param LoggerInterface $logger
+     * @param int $connectionTimeout
      */
-    public function __construct(LoggerInterface $logger = null) {
+    public function __construct(LoggerInterface $logger = null, $connectionTimeout = 30) {
         $this->logger = $logger;
+        $this->connectionTimeout = $connectionTimeout;
     }
     
     /**
@@ -35,6 +39,7 @@ class PostClient implements iClient {
         $curl = curl_init($service->getRequestUrl());
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $this->connectionTimeout);
         
         if(!empty($requestParameters)){
             curl_setopt($curl, CURLOPT_POST, 1);
