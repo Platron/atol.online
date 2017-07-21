@@ -32,6 +32,8 @@ class CreateDocumentRequest extends BaseServiceRequest{
     protected $externalId;
     /** @var string */
     protected $sno;
+    /** @var string */
+    protected $callbackUrl = '';
     
     const 
         OPERATION_TYPE_SELL = 'sell', // Приход
@@ -179,6 +181,16 @@ class CreateDocumentRequest extends BaseServiceRequest{
     }
     
     /**
+     * Установить url для обратного запроса
+     * @param type $url
+     * @return CreateDocumentRequest
+     */
+    public function addCallbackUrl($url){
+        $this->callbackUrl = $url;
+        return $this;
+    }
+    
+    /**
      * Добавить код группы
      * @param string $groupCode Идентификатор группы ККТ
      * @return CreateDocumentRequest
@@ -201,7 +213,7 @@ class CreateDocumentRequest extends BaseServiceRequest{
             'external_id' => $this->externalId,
             'service' => [
                 'inn' => $this->inn,
-                'callback_url' => '',
+                'callback_url' => $this->callbackUrl,
                 'payment_address' => $this->paymentAddress,
             ],
             'receipt' => [
