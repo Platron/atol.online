@@ -57,8 +57,8 @@ class PostClient implements iClient {
 			throw new SdkException(curl_error($curl), curl_errno($curl));
 		}
         
-        if(empty(json_decode($response))){
-            throw new SdkException('Atol error. Not json response');
+        if(empty($response) || empty(json_decode($response))){
+            throw new SdkException('Atol error. Empty responce or not json response');
         }
 		
 		return json_decode($response);
