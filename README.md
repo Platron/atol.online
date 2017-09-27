@@ -3,7 +3,7 @@ Platron Atol SDK
 ## Установка
 
 Проект предполагает через установку с использованием composer
-<pre><code>composer require platron/atol-online</pre></code>
+<pre><code>composer require payprocessing/atol-online</pre></code>
 
 ## Тесты
 Для работы тестов необходим PHPUnit, для установки необходимо выполнить команду
