@@ -2,18 +2,18 @@ Platron Atol SDK
 ===============
 ## Установка
 
-Проект предполагает через установку с использованием composer
+Проект предполагает установку с использованием composer
 <pre><code>composer require payprocessing/atol-online</pre></code>
 
 ## Тесты
-Для работы тестов необходим PHPUnit, для установки необходимо выполнить команду
+Для работы тестов необходим PHPUnit, для его установки необходимо выполнить команду
 ```
-composer install
+composer require phpunit/phpunit
 ```
 Для того, чтобы запустить интеграционные тесты нужно скопировать файл tests/integration/MerchantSettingsSample.php удалив 
 из названия Sample и вставив настройки магазина. После выполнить команду из корня проекта
 ```
-vendor/bin/phpunit tests/integration
+vendor/bin/phpunit vendor/payprocessing/atol-online/tests/integration
 ```
 
 ## Примеры использования
@@ -31,7 +31,7 @@ $tokenResponse = new Platron\Atol\services\GetTokenResponse($client->sendRequest
 
 ```php
 $client = new Platron\Atol\clients\PostClient();
-$receiptPosition = new Platron\Atol\data_objects\ReceiptPosition('Test product', 10.00, 2, ReceiptPosition::TAX_VAT10);
+$receiptPosition = new Platron\Atol\data_objects\ReceiptPosition('Test product', 10.00, 2, Platron\Atol\data_objects\ReceiptPosition::TAX_VAT10);
 
 $createDocumentService = (new Platron\Atol\services\CreateDocumentRequest('token'))
     ->addCustomerEmail('test@test.ru')
@@ -42,6 +42,7 @@ $createDocumentService = (new Platron\Atol\services\CreateDocumentRequest('token
     ->addOperationType(Platron\Atol\services\CreateDocumentRequest::OPERATION_TYPE_BUY)
     ->addPaymentType(Platron\Atol\services\CreateDocumentRequest::PAYMENT_TYPE_ELECTRON)
     ->addSno(Platron\Atol\services\CreateDocumentRequest::SNO_ESN)
+    ->addExternalId('externalId')
     ->addReceiptPosition($receiptPosition);
 $createDocumentResponse = new Platron\Atol\services\CreateDocumentResponse($client->sendRequest($createDocumentService));
 ```
@@ -50,6 +51,6 @@ $createDocumentResponse = new Platron\Atol\services\CreateDocumentResponse($clie
 
 ```php
 $client = new Platron\Atol\clients\PostClient();
-$getStatusServise = new Platron\Atol\services\GetStatusRequest('groupCode', 'uuid', 'token');
-$getStatusResponse = new Platron\Atol\services\GetStatusResponse($client->sendRequest($getStatusServise));
+$getStatusService = new Platron\Atol\services\GetStatusRequest('groupCode', 'uuid', 'token');
+$getStatusResponse = new Platron\Atol\services\GetStatusResponse($client->sendRequest($getStatusService));
 ```
