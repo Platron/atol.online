@@ -6,7 +6,7 @@ use Platron\Atol\data_objects\ReceiptPosition;
 use Platron\Atol\SdkException;
 
 /**
- * Все парараметры обязательны для заполнения, кроме external_id. Он нужен только для корректировки чека. В наборе email|phone требуется хотя бы одно значение
+ * Все парараметры обязательны для заполнения. В наборе email|phone требуется хотя бы одно значение
  */
 class CreateDocumentRequest extends BaseServiceRequest{
     
@@ -208,6 +208,8 @@ class CreateDocumentRequest extends BaseServiceRequest{
             $items[] = $receiptPosition->getParameters();
         }
         
+        $itemsProperty = (stristr($this->operationType, 'correction') !== FALSE) ? 'correction' : 'receipt';
+
         $params = [
             'timestamp' => date('d.m.Y H:i:s'),
             'external_id' => $this->externalId,
@@ -216,7 +218,7 @@ class CreateDocumentRequest extends BaseServiceRequest{
                 'callback_url' => $this->callbackUrl,
                 'payment_address' => $this->paymentAddress,
             ],
-            'receipt' => [
+            $itemsProperty => [
                 'items' => $items,
                 'total' => $totalAmount,
                 'payments' => [
@@ -235,12 +237,12 @@ class CreateDocumentRequest extends BaseServiceRequest{
          * Отправлять надо только один контакт. Email предпочтительнее
          */
         if(!empty($this->customerEmail)){
-            $params['receipt']['attributes']['email'] = $this->customerEmail;
-            $params['receipt']['attributes']['phone'] = '';
+            $params[$itemsProperty]['attributes']['email'] = $this->customerEmail;
+            $params[$itemsProperty]['attributes']['phone'] = '';
         }
         elseif(!empty($this->customerPhone)){
-            $params['receipt']['attributes']['phone'] = $this->customerPhone;
-            $params['receipt']['attributes']['email'] = '';
+            $params[$itemsProperty]['attributes']['phone'] = $this->customerPhone;
+            $params[$itemsProperty]['attributes']['email'] = '';
         }
         
         return $params;
