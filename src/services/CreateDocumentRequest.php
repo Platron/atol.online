@@ -34,6 +34,8 @@ class CreateDocumentRequest extends BaseServiceRequest{
     protected $sno;
     /** @var string */
     protected $callbackUrl = '';
+    /** @var string */
+    protected $itemsType;
     
     const 
         OPERATION_TYPE_SELL = 'sell', // Приход
@@ -46,10 +48,10 @@ class CreateDocumentRequest extends BaseServiceRequest{
     const 
         PAYMENT_TYPE_CASH = 0, // наличными
         PAYMENT_TYPE_ELECTRON = 1, // электронными
-        PAYMNET_TYPE_PRE_PAID = 2, // предварительная оплата (аванс)
-        PAYMNET_TYPE_CREDIT = 3, // последующая оплата (кредит)
-        PAYMNET_TYPE_OTHER = 4,// иная форма оплаты (встречное предоставление
-        PAYMNET_TYPE_ADDITIONAL = 5; // расширенный типы оплаты. для каждого фискального типа оплаты можно указать расширенный тип оплаты
+        PAYMENT_TYPE_PRE_PAID = 2, // предварительная оплата (аванс)
+        PAYMENT_TYPE_CREDIT = 3, // последующая оплата (кредит)
+        PAYMENT_TYPE_OTHER = 4,// иная форма оплаты (встречное предоставление
+        PAYMENT_TYPE_ADDITIONAL = 5; // расширенный типы оплаты. для каждого фискального типа оплаты можно указать расширенный тип оплаты
     
     const 
         SNO_OSN = 'osn', // общая СН
@@ -58,7 +60,11 @@ class CreateDocumentRequest extends BaseServiceRequest{
         SNO_ENDV = 'envd', // единый налог на вмененный доход
         SNO_ESN = 'esn', // единый сельскохозяйственный налог
         SNO_PATENT = 'patent'; // патентная СН
-    
+        
+    const
+        ITEMS_TYPE_RECEIPT = 'receipt', // Наименование параметра для передачи товаров при операциях прихода, расхода и возвратов
+        ITEMS_TYPE_CORRECTION = 'correction'; // Наименование параметра для передачи товаров при операциях коррекции прихода, расхода
+        
     /**
      * @inheritdoc
      */
@@ -166,7 +172,7 @@ class CreateDocumentRequest extends BaseServiceRequest{
     }
     
     /**
-     * Добавить тип операции
+     * Добавить тип операции и определить наименование параметра для передачи товаров
      * @param string $operationType Тип операции. Из констант
      * @throws SdkException
      * @return CreateDocumentRequest
@@ -177,6 +183,7 @@ class CreateDocumentRequest extends BaseServiceRequest{
         }
         
         $this->operationType = $operationType;
+        $this->itemsType = (stristr($this->operationType, 'correction') !== FALSE) ? self::ITEMS_TYPE_CORRECTION : self::ITEMS_TYPE_RECEIPT;
         return $this;
     }
     
@@ -207,7 +214,7 @@ class CreateDocumentRequest extends BaseServiceRequest{
             $totalAmount += $receiptPosition->getPositionSum();
             $items[] = $receiptPosition->getParameters();
         }
-        
+
         $params = [
             'timestamp' => date('d.m.Y H:i:s'),
             'external_id' => $this->externalId,
@@ -216,7 +223,7 @@ class CreateDocumentRequest extends BaseServiceRequest{
                 'callback_url' => $this->callbackUrl,
                 'payment_address' => $this->paymentAddress,
             ],
-            'receipt' => [
+            $this->itemsType => [
                 'items' => $items,
                 'total' => $totalAmount,
                 'payments' => [
@@ -235,12 +242,12 @@ class CreateDocumentRequest extends BaseServiceRequest{
          * Отправлять надо только один контакт. Email предпочтительнее
          */
         if(!empty($this->customerEmail)){
-            $params['receipt']['attributes']['email'] = $this->customerEmail;
-            $params['receipt']['attributes']['phone'] = '';
+            $params[$this->itemsType]['attributes']['email'] = $this->customerEmail;
+            $params[$this->itemsType]['attributes']['phone'] = '';
         }
         elseif(!empty($this->customerPhone)){
-            $params['receipt']['attributes']['phone'] = $this->customerPhone;
-            $params['receipt']['attributes']['email'] = '';
+            $params[$this->itemsType]['attributes']['phone'] = $this->customerPhone;
+            $params[$this->itemsType]['attributes']['email'] = '';
         }
         
         return $params;
@@ -261,9 +268,9 @@ class CreateDocumentRequest extends BaseServiceRequest{
         return [
             self::PAYMENT_TYPE_CASH,
             self::PAYMENT_TYPE_ELECTRON,
-            self::PAYMNET_TYPE_CREDIT,
-            self::PAYMNET_TYPE_OTHER,
-            self::PAYMNET_TYPE_PRE_PAID,
+            self::PAYMENT_TYPE_CREDIT,
+            self::PAYMENT_TYPE_OTHER,
+            self::PAYMENT_TYPE_PRE_PAID,
         ];
     }
     
