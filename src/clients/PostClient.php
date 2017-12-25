@@ -6,10 +6,11 @@ use Platron\Atol\clients\iClient;
 use Platron\Atol\SdkException;
 use Platron\Atol\services\BaseServiceRequest;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 class PostClient implements iClient {
     
-    const LOG_LEVEL = 0;
+    const LOG_LEVEL = LogLevel::INFO;
     
     /** @var string */
     protected $errorDescription;
