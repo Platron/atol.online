@@ -104,11 +104,11 @@ class CreateDocumentRequest extends BaseServiceRequest{
     
     /**
      * Установить inn
-     * @param type $inn
+     * @param int $inn
      * @return CreateDocumentRequest
      */
     public function addInn($inn){
-        $this->inn = $inn;
+        $this->inn = (string)$inn;
         return $this;
     }
     
