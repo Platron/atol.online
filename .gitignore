@@ -12,3 +12,9 @@ composer.phar
 
 # Merchant settings for integration tests
 /tests/integration/MerchantSettings.php
+
+# Logs
+/tests/integration/logs/
+
+# IDEA
+.idea
