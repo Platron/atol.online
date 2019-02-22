@@ -39,6 +39,7 @@ class PostClient implements iClient {
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $this->connectionTimeout);
+		curl_setopt($curl, CURLOPT_TIMEOUT, $this->connectionTimeout);
         
         if(!empty($requestParameters)){
             curl_setopt($curl, CURLOPT_POST, 1);
