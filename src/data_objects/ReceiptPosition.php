@@ -10,9 +10,9 @@ class ReceiptPosition extends BaseDataObject{
         TAX_NONE = 'none',
         TAX_VAT0 = 'vat0',
         TAX_VAT10 = 'vat10',
-        TAX_VAT18 = 'vat18',
+        TAX_VAT20 = 'vat20',
         TAX_VAT110 = 'vat110',
-        TAX_VAT118 = 'vat118';
+        TAX_VAT120 = 'vat120';
     
     /** @var float */
     protected $sum;
@@ -80,8 +80,8 @@ class ReceiptPosition extends BaseDataObject{
             self::TAX_VAT0,
             self::TAX_VAT10,
             self::TAX_VAT110,
-            self::TAX_VAT118,
-            self::TAX_VAT18,
+            self::TAX_VAT120,
+            self::TAX_VAT20,
         ];
     }
     
@@ -97,8 +97,8 @@ class ReceiptPosition extends BaseDataObject{
             case self::TAX_VAT10:
             case self::TAX_VAT110:
                 return round($amount * 10 / 110, 2);
-            case self::TAX_VAT18:
-            case self::TAX_VAT118:
+            case self::TAX_VAT20:
+            case self::TAX_VAT120:
                 return round($amount * 18 / 118, 2);
             default :
                 throw new SdkException('Unknown vat');
